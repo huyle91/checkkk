@@ -1,0 +1,437 @@
+﻿<Window x:Class="YourNameWPF.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YourNameWPF"
+        mc:Ignorable="d"
+        Title="FU Mini Hotel System - Admin Panel" Height="700" Width="1200"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Background="#34495E">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="20,10">
+                <TextBlock Text="FU Mini Hotel System" 
+                           Foreground="White" 
+                           FontSize="24" 
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"/>
+                <TextBlock Text=" - Admin Panel" 
+                           Foreground="#ECF0F1" 
+                           FontSize="18" 
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <Button Grid.Column="1" 
+                    Content="Log Out" 
+                    Margin="20,10" 
+                    Padding="15,5"
+                    Click="LogoutButton_Click"
+                    Background="#E74C3C"
+                    Foreground="White"
+                    FontWeight="SemiBold"/>
+        </Grid>
+
+        <!-- Main Content -->
+        <TabControl Grid.Row="1" Margin="5">
+            <TabItem Header="Customer Management">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Search and Add Panel -->
+                    <Grid Grid.Row="0" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Grid.Column="0" 
+                                 Margin="0,0,10,0" 
+                                 Padding="5"
+                                 Text="{Binding CustomerViewModel.SearchText, UpdateSourceTrigger=PropertyChanged}" 
+                                 VerticalContentAlignment="Center"
+                                 FontSize="14"/>
+
+                        <Button Grid.Column="1" 
+                                Content="Search" 
+                                Padding="15,5" 
+                                Margin="0,0,10,0"
+                                Command="{Binding CustomerViewModel.SearchCommand}"
+                                Background="#3498DB"
+                                Foreground="White"
+                                FontWeight="SemiBold"/>
+
+                        <Button Grid.Column="2" 
+                                Content="Refresh" 
+                                Padding="15,5" 
+                                Margin="0,0,10,0"
+                                Command="{Binding CustomerViewModel.RefreshCommand}"
+                                Background="#2ECC71"
+                                Foreground="White"
+                                FontWeight="SemiBold"/>
+
+                        <Button Grid.Column="3" 
+                                Content="Add New Customer" 
+                                Padding="15,5"
+                                Command="{Binding CustomerViewModel.AddCommand}"
+                                CommandParameter="{Binding ShowCustomerDialog}"
+                                Background="#9B59B6"
+                                Foreground="White"
+                                FontWeight="SemiBold"/>
+                    </Grid>
+
+                    <!-- Customers DataGrid -->
+                    <DataGrid Grid.Row="1" 
+                              ItemsSource="{Binding CustomerViewModel.Customers}" 
+                              SelectedItem="{Binding CustomerViewModel.SelectedCustomer}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              GridLinesVisibility="Horizontal"
+                              RowHeaderWidth="0"
+                              BorderBrush="#E5E5E5"
+                              BorderThickness="1"
+                              AlternatingRowBackground="#F5F5F5"
+                              SelectionMode="Single"
+                              SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding CustomerID}" Width="50"/>
+                            <DataGridTextColumn Header="Full Name" Binding="{Binding CustomerFullName}" Width="*"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding EmailAddress}" Width="1.5*"/>
+                            <DataGridTextColumn Header="Phone" Binding="{Binding Telephone}" Width="*"/>
+                            <DataGridTextColumn Header="Birthday" Binding="{Binding CustomerBirthday, StringFormat=\{0:dd/MM/yyyy\}}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Action Buttons -->
+                    <StackPanel Grid.Row="2" 
+                                Orientation="Horizontal" 
+                                HorizontalAlignment="Right" 
+                                Margin="0,10,0,0">
+                        <Button Content="Edit" 
+                                Command="{Binding CustomerViewModel.EditCommand}"
+                                CommandParameter="{Binding ShowCustomerDialog}"
+                                Padding="15,5" 
+                                Margin="0,0,10,0"
+                                Background="#3498DB"
+                                Foreground="White"
+                                FontWeight="SemiBold"/>
+
+                        <Button Content="Delete" 
+                                Command="{Binding CustomerViewModel.DeleteCommand}"
+                                Padding="15,5"
+                                Background="#E74C3C"
+                                Foreground="White"
+                                FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Room Management">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Search and Add Panel -->
+                    <Grid Grid.Row="0" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Grid.Column="0" 
+                                 Margin="0,0,10,0" 
+                                 Padding="5"
+                                 Text="{Binding RoomViewModel.SearchText, UpdateSourceTrigger=PropertyChanged}" 
+                                 VerticalContentAlignment="Center"
+                                 FontSize="14"/>
+
+                        <Button Grid.Column="1" 
+                                Content="Search" 
+                                Padding="15,5" 
+                                Margin="0,0,10,0"
+                                Command="{Binding RoomViewModel.SearchCommand}"
+                                Background="#3498DB"
+                                Foreground="White"
+                                FontWeight="SemiBold"/>
+
+                        <Button Grid.Column="2" 
+                                Content="Refresh" 
+                                Padding="15,5" 
+                                Margin="0,0,10,0"
+                                Command="{Binding RoomViewModel.RefreshCommand}"
+                                Background="#2ECC71"
+                                Foreground="White"
+                                FontWeight="SemiBold"/>
+
+                        <Button Grid.Column="3" 
+                                Content="Add New Room" 
+                                Padding="15,5"
+                                Command="{Binding RoomViewModel.AddCommand}"
+                                CommandParameter="{Binding ShowRoomDialog}"
+                                Background="#9B59B6"
+                                Foreground="White"
+                                FontWeight="SemiBold"/>
+                    </Grid>
+
+                    <!-- Rooms DataGrid -->
+                    <DataGrid Grid.Row="1" 
+                              ItemsSource="{Binding RoomViewModel.Rooms}" 
+                              SelectedItem="{Binding RoomViewModel.SelectedRoom}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              GridLinesVisibility="Horizontal"
+                              RowHeaderWidth="0"
+                              BorderBrush="#E5E5E5"
+                              BorderThickness="1"
+                              AlternatingRowBackground="#F5F5F5"
+                              SelectionMode="Single"
+                              SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding RoomID}" Width="50"/>
+                            <DataGridTextColumn Header="Room Number" Binding="{Binding RoomNumber}" Width="*"/>
+                            <DataGridTextColumn Header="Description" Binding="{Binding RoomDescription}" Width="2*"/>
+                            <DataGridTextColumn Header="Capacity" Binding="{Binding RoomMaxCapacity}" Width="*"/>
+                            <DataGridTextColumn Header="Price / Day" Binding="{Binding RoomPricePerDate, StringFormat=\{0:C\}}" Width="*"/>
+                            <DataGridTextColumn Header="Room Type" Binding="{Binding RoomType.RoomTypeName}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Action Buttons -->
+                    <StackPanel Grid.Row="2" 
+                                Orientation="Horizontal" 
+                                HorizontalAlignment="Right" 
+                                Margin="0,10,0,0">
+                        <Button Content="Edit" 
+                                Command="{Binding RoomViewModel.EditCommand}"
+                                CommandParameter="{Binding ShowRoomDialog}"
+                                Padding="15,5" 
+                                Margin="0,0,10,0"
+                                Background="#3498DB"
+                                Foreground="White"
+                                FontWeight="SemiBold"/>
+
+                        <Button Content="Delete" 
+                                Command="{Binding RoomViewModel.DeleteCommand}"
+                                Padding="15,5"
+                                Background="#E74C3C"
+                                Foreground="White"
+                                FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Booking Management">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Add Panel -->
+                    <StackPanel Grid.Row="0" 
+                                Orientation="Horizontal" 
+                                HorizontalAlignment="Right" 
+                                Margin="0,0,0,10">
+                        <Button Content="Add New Booking" 
+                                Padding="15,5"
+                                Command="{Binding BookingViewModel.AddCommand}"
+                                CommandParameter="{Binding ShowBookingDialog}"
+                                Background="#9B59B6"
+                                Foreground="White"
+                                FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                    <!-- Bookings DataGrid -->
+                    <DataGrid Grid.Row="1" 
+                              ItemsSource="{Binding BookingViewModel.Bookings}" 
+                              SelectedItem="{Binding BookingViewModel.SelectedBooking}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              GridLinesVisibility="Horizontal"
+                              RowHeaderWidth="0"
+                              BorderBrush="#E5E5E5"
+                              BorderThickness="1"
+                              AlternatingRowBackground="#F5F5F5"
+                              SelectionMode="Single"
+                              SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding BookingID}" Width="50"/>
+                            <DataGridTextColumn Header="Customer" Binding="{Binding Customer.CustomerFullName}" Width="*"/>
+                            <DataGridTextColumn Header="Room" Binding="{Binding Room.RoomNumber}" Width="*"/>
+                            <DataGridTextColumn Header="Room Type" Binding="{Binding Room.RoomType.RoomTypeName}" Width="*"/>
+                            <DataGridTextColumn Header="Check-In" Binding="{Binding StartDate, StringFormat=\{0:dd/MM/yyyy\}}" Width="*"/>
+                            <DataGridTextColumn Header="Check-Out" Binding="{Binding EndDate, StringFormat=\{0:dd/MM/yyyy\}}" Width="*"/>
+                            <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice, StringFormat=\{0:C\}}" Width="*"/>
+                            <DataGridTemplateColumn Header="Status" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding BookingStatus}" Value="1">
+                                                            <Setter Property="Text" Value="Active"/>
+                                                            <Setter Property="Foreground" Value="#2ECC71"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding BookingStatus}" Value="2">
+                                                            <Setter Property="Text" Value="Cancelled"/>
+                                                            <Setter Property="Foreground" Value="#E74C3C"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding BookingStatus}" Value="3">
+                                                            <Setter Property="Text" Value="Completed"/>
+                                                            <Setter Property="Foreground" Value="#3498DB"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Action Buttons -->
+                    <StackPanel Grid.Row="2" 
+                                Orientation="Horizontal" 
+                                HorizontalAlignment="Right" 
+                                Margin="0,10,0,0">
+                        <Button Content="Edit" 
+                                Command="{Binding BookingViewModel.EditCommand}"
+                                CommandParameter="{Binding ShowBookingDialog}"
+                                Padding="15,5" 
+                                Margin="0,0,10,0"
+                                Background="#3498DB"
+                                Foreground="White"
+                                FontWeight="SemiBold"/>
+
+                        <Button Content="Cancel Booking" 
+                                Command="{Binding BookingViewModel.DeleteCommand}"
+                                Padding="15,5"
+                                Background="#E74C3C"
+                                Foreground="White"
+                                FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Booking Reports">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Report Settings -->
+                    <Grid Grid.Row="0" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" 
+                                   Text="Start Date:" 
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+
+                        <DatePicker Grid.Column="1" 
+                                   SelectedDate="{Binding BookingViewModel.ReportStartDate}"
+                                   Margin="0,0,20,0"/>
+
+                        <TextBlock Grid.Column="2" 
+                                   Text="End Date:" 
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+
+                        <DatePicker Grid.Column="3" 
+                                   SelectedDate="{Binding BookingViewModel.ReportEndDate}"
+                                   Margin="0,0,20,0"/>
+
+                        <Button Grid.Column="4" 
+                                Content="Generate Report" 
+                                Padding="15,5"
+                                Command="{Binding BookingViewModel.GenerateReportCommand}"
+                                Background="#3498DB"
+                                Foreground="White"
+                                FontWeight="SemiBold"/>
+                    </Grid>
+
+                    <!-- Report Results -->
+                    <DataGrid Grid.Row="1" 
+                              ItemsSource="{Binding BookingViewModel.Bookings}" 
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              GridLinesVisibility="Horizontal"
+                              RowHeaderWidth="0"
+                              BorderBrush="#E5E5E5"
+                              BorderThickness="1"
+                              AlternatingRowBackground="#F5F5F5">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding BookingID}" Width="50"/>
+                            <DataGridTextColumn Header="Customer" Binding="{Binding Customer.CustomerFullName}" Width="*"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Customer.EmailAddress}" Width="*"/>
+                            <DataGridTextColumn Header="Room" Binding="{Binding Room.RoomNumber}" Width="*"/>
+                            <DataGridTextColumn Header="Room Type" Binding="{Binding Room.RoomType.RoomTypeName}" Width="*"/>
+                            <DataGridTextColumn Header="Check-In" Binding="{Binding StartDate, StringFormat=\{0:dd/MM/yyyy\}}" Width="*"/>
+                            <DataGridTextColumn Header="Check-Out" Binding="{Binding EndDate, StringFormat=\{0:dd/MM/yyyy\}}" Width="*"/>
+                            <DataGridTextColumn Header="Booking Date" Binding="{Binding BookingDate, StringFormat=\{0:dd/MM/yyyy\}}" Width="*"/>
+                            <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice, StringFormat=\{0:C\}}" Width="*"/>
+                            <DataGridTemplateColumn Header="Status" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding BookingStatus}" Value="1">
+                                                            <Setter Property="Text" Value="Active"/>
+                                                            <Setter Property="Foreground" Value="#2ECC71"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding BookingStatus}" Value="2">
+                                                            <Setter Property="Text" Value="Cancelled"/>
+                                                            <Setter Property="Foreground" Value="#E74C3C"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding BookingStatus}" Value="3">
+                                                            <Setter Property="Text" Value="Completed"/>
+                                                            <Setter Property="Foreground" Value="#3498DB"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
