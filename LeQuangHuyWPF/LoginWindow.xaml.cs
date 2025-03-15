@@ -1,5 +1,6 @@
 ﻿using BusinessObjects;
 using LeQuangHuyWPF.Utils;
+using LeQuangHuyWPF.Views;
 using LeQuangHuyWPF.ViewModels;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,6 @@
 ﻿using LeQuangHuyWPF.Utils;
 using LeQuangHuyWPF.ViewModels;
+using LeQuangHuyWPF.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
